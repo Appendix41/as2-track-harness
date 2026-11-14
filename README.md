@@ -151,6 +151,38 @@ has the fusion formulas, the coordinate contract and the gate order.
 
 <p align="center"><em>Left: the frame the planner saw. Middle: the image-space route it returned. Right: the fused body-frame path the executor consumes.</em></p>
 
+## Screenshots
+
+The observation dashboard, full page. The labels are still Chinese; the HTTP API, the
+logs and the documentation are in English.
+
+<p align="center">
+  <img src="assets/dashboard-live.jpg" alt="Observation dashboard, full page" width="82%">
+</p>
+
+History view: pick a saved run and inspect the same panels offline.
+
+<p align="center">
+  <img src="assets/dashboard-history.jpg" alt="Dashboard history view" width="82%">
+</p>
+
+Offline report for a recorded run. It is generated from the saved JSONL, without the model,
+the camera or the robot.
+
+<p align="center">
+  <img src="assets/report-comparison.png" alt="Offline report figure" width="82%">
+</p>
+
+### Video and on-robot photos
+
+Coming soon. This section is reserved for a short demo clip and photos of the robot. The
+screenshots above are from the current build.
+
+<!-- When the files exist, replace this comment with:
+<p align="center"><a href="assets/demo.mp4"><img src="assets/demo-poster.jpg" alt="Demo video" width="82%"></a></p>
+<p align="center"><img src="assets/robot.jpg" alt="Unitree AS2 with the AGX Orin" width="72%"></p>
+-->
+
 ## Quick start (no robot required)
 
 Offline work needs Python and numpy. The dashboard extras add OpenCV and Pillow.

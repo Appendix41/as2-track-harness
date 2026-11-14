@@ -125,6 +125,35 @@ flowchart LR
 
 <p align="center"><em>左：规划器看到的帧。中：它返回的图像空间路线。右：执行器实际消费的机身系融合路径。</em></p>
 
+## 软件截图
+
+观察台整页。界面标签目前还是中文；HTTP API、日志和文档是英文。
+
+<p align="center">
+  <img src="assets/dashboard-live.jpg" alt="观察台整页" width="82%">
+</p>
+
+历史回看：选一次保存的运行，离线看同样的面板。
+
+<p align="center">
+  <img src="assets/dashboard-history.jpg" alt="观察台历史回看" width="82%">
+</p>
+
+录制运行的离线报告，直接用保存的 JSONL 生成，不需要模型、相机或机器人。
+
+<p align="center">
+  <img src="assets/report-comparison.png" alt="离线报告图" width="82%">
+</p>
+
+### 视频与实机照片
+
+待补充。这一节预留给演示视频和机器狗实拍图；上面的截图来自当前版本。
+
+<!-- 文件就绪后，把这段注释换成：
+<p align="center"><a href="assets/demo.mp4"><img src="assets/demo-poster.jpg" alt="演示视频" width="82%"></a></p>
+<p align="center"><img src="assets/robot.jpg" alt="Unitree AS2 与 AGX Orin" width="72%"></p>
+-->
+
 ## 快速开始（无需机器人）
 
 离线部分只需要 Python 和 numpy；观察台额外要 OpenCV 和 Pillow。
