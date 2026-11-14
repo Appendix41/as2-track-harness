@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="960" viewBox="0 0 920 960" role="img" aria-label="Architecture: camera and telemetry feed a fast VLX-Go loop and a slow DeepSeek planner; a fusion stage blends both, a safety gate validates, and an executor commands the AS2.">
+<rect width="920" height="960" fill="#ffffff"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs>
+<rect x="280" y="30" width="360" height="78" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+<text x="460.0" y="66" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">Camera + DDS telemetry</text>
+<text x="460.0" y="94" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">RGB frame · pose · velocity · mode · remote</text>
+<rect x="70" y="170" width="340" height="100" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+<text x="240.0" y="206" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">VLX-Go — fast loop</text>
+<text x="240.0" y="234" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">≈8 Hz · 8×3 body-frame waypoints</text>
+<text x="240.0" y="255" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">supplies path shape</text>
+<rect x="510" y="170" width="340" height="100" rx="14" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+<text x="680.0" y="206" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">DeepSeek — slow loop</text>
+<text x="680.0" y="234" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">once per task · 10–30 s</text>
+<text x="680.0" y="255" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">supplies route direction</text>
+<rect x="210" y="350" width="500" height="100" rx="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+<text x="460.0" y="386" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">Fusion (20 Hz)</text>
+<text x="460.0" y="414" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">freeze the route · measure progress by odometry</text>
+<text x="460.0" y="435" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">blend the plan heading into the VLX path</text>
+<rect x="210" y="500" width="500" height="100" rx="14" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+<text x="460.0" y="536" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">Safety gate</text>
+<text x="460.0" y="564" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">fresh frame, prediction and telemetry · sport mode</text>
+<text x="460.0" y="585" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">remote idle · speed and tilt · control lease</text>
+<rect x="210" y="650" width="500" height="100" rx="14" fill="#f8fafc" stroke="#14b8a6" stroke-width="2"/>
+<text x="460.0" y="686" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">Executor</text>
+<text x="460.0" y="714" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">velocity and acceleration limits</text>
+<text x="460.0" y="735" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">0.2 s watchdog · StopMove</text>
+<rect x="310" y="800" width="300" height="80" rx="14" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+<text x="460.0" y="836" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#0f172a">Unitree AS2</text>
+<text x="460.0" y="864" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#475569">onboard AGX Orin</text>
+<path d="M460 108 L460 138" fill="none" stroke="#64748b" stroke-width="2"/>
+<path d="M240 138 L680 138" fill="none" stroke="#64748b" stroke-width="2"/>
+<path d="M240 138 L240 170" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+<path d="M680 138 L680 170" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+<path d="M240 270 L240 306" fill="none" stroke="#64748b" stroke-width="2"/>
+<path d="M680 270 L680 306" fill="none" stroke="#64748b" stroke-width="2"/>
+<path d="M240 306 L680 306" fill="none" stroke="#64748b" stroke-width="2"/>
+<path d="M460 306 L460 350" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+<path d="M460 450 L460 500" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+<path d="M460 600 L460 650" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+<path d="M460 750 L460 800" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+<text x="460" y="925" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#64748b">one plan per task · the slow model never enters the control loop</text>
+</svg>

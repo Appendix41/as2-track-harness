@@ -3,7 +3,7 @@
 Everything here runs on Linux. The repository ships no virtual environment and
 no model weights; tests and offline tools need only Python and numpy. For a real
 VLM run you must obtain the upstream VLX-Go weights and provide the local preview
-adapter — see "What you must obtain" in [`../README.md`](../README.md).
+adapter — see "Running on an AS2" in [`../README.md`](../README.md).
 
 ## 1. Install
 
