@@ -23,6 +23,23 @@
 
 ---
 
+## Why a slow planner
+
+VLX-Go is fast, but on its own it was not accurate enough in our cluttered lab. It
+returns waypoints from what it sees, and the parts that need scene understanding
+kept going wrong: which of the black chairs is the far one, where the target went
+behind an obstacle, whether the route still makes sense after the view changes.
+The monocular projection flattens distance, so "go to the farthest black seat" is
+exactly the kind of instruction it struggles with.
+
+The slow model handles that part. DeepSeek reads the frame and the instruction and
+returns a ground route; the harness asks it once per task, before the robot moves,
+so its 10–30 s latency never enters the 20 Hz loop. Pairing a slow vision-language
+planner with a fast VLA policy follows the idea of Galbot's integration of Astra
+into a VLA pipeline.
+
+Fast half VLX-Go, slow half DeepSeek, and a gate in between.
+
 ## What this is
 
 The harness runs two models at different speeds and keeps the slow one out of the
