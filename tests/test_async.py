@@ -517,7 +517,7 @@ class IntegrationTests(unittest.TestCase):
                     'telemetry_path':str(telemetry)}))
                 env=dict(os.environ,PYTHONPATH=str(ROOT/'src'),PYTHONDONTWRITEBYTECODE='1')
                 result=subprocess.run([sys.executable,'-B','-m','vlx_async.runner','--config',str(config),
-                                       '--duration','1.5','--port','0'],env=env,cwd=ROOT,
+                                       '--duration','3.0','--port','0'],env=env,cwd=ROOT,
                                       capture_output=True,text=True,timeout=20)
                 telemetry_stop.set();writer.join(timeout=1)
                 self.assertEqual(result.returncode,0,result.stderr)
