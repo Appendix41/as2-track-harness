@@ -61,11 +61,11 @@
 快策略是外部模型，本仓库只消费它的 8×3 输出。结构供参考：
 
 <p align="center">
-  <img src="assets/vlx-go-architecture.png" alt="VLX-Go 模型结构：188 个视觉 token、文本与动作查询 token、Transformer 主干、三层 MLP 航点头" width="700">
+  <a href="assets/vlx-go-architecture.png"><img src="assets/vlx-go-architecture.png" alt="VLX-Go 模型结构：RGB 历史帧与当前帧经冻结的 DINOv3、SigLIP 编码和特征融合，得到 188 个视觉 token，加上文本、时间标记和动作查询 token 送入 Transformer 主干，三层 MLP 航点头输出 8 个机身系路径点" width="100%"></a>
 </p>
 
-- 31 帧历史 × 4 个 token，加当前帧 64 个 token，共 188 个视觉 token；DINOv3 与
-  SigLIP 特征经对齐、拼接、池化后每个 token 1536 维。
+- 31 帧历史 × 4 个 token（124），加当前帧 64 个 token，共 188 个视觉 token；
+  DINOv3 与 SigLIP 特征经对齐、拼接、池化后每个 token 1536 维。
 - 共享 Adapter 把 1536 维映射到 1024 维；指令分词后得到 L 个文本 token，再拼上
   时间标记和 1 个 ACT token。
 - Qwen3 做一次前向；ACT 位置的输出经三层 MLP（1024 → 24）得到 8×3 机身系路径点。

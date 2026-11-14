@@ -68,11 +68,12 @@ The fast policy is external; this repository only consumes its 8×3 output. Its
 architecture, for reference:
 
 <p align="center">
-  <img src="assets/vlx-go-architecture.png" alt="VLX-Go architecture: 188 visual tokens, text and action-query tokens, transformer backbone, 3-layer MLP waypoint head" width="700">
+  <a href="assets/vlx-go-architecture.png"><img src="assets/vlx-go-architecture.png" alt="VLX-Go architecture: RGB history and current frame pass through frozen DINOv3 and SigLIP encoders and feature fusion, producing 188 visual tokens plus text, time and action-query tokens for a transformer backbone; a 3-layer MLP waypoint head outputs 8 robot-centric waypoints" width="100%"></a>
 </p>
 
-- 31 history frames × 4 tokens plus 64 current tokens give 188 visual tokens, 1536
-  dimensions each after DINOv3 and SigLIP features are aligned and pooled.
+- 31 history frames × 4 tokens (124) plus the current frame (64) give 188 visual
+  tokens, 1536 dimensions each after DINOv3 and SigLIP features are aligned and
+  pooled.
 - A shared adapter maps 1536 → 1024. The instruction becomes L text tokens; time
   indicators and one action-query token are appended.
 - Qwen3 runs one forward pass. The action-query position goes through a 3-layer MLP

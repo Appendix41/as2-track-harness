@@ -6,7 +6,7 @@ reimplement the model, and no weights are redistributed. The notes below exist s
 the code and the numbers in the paper are easier to follow.
 
 <p align="center">
-  <img src="../assets/vlx-go-architecture.png" alt="VLX-Go architecture: 188 visual tokens, text tokens, time indicators and an action-query token, a transformer backbone and a 3-layer MLP waypoint head" width="700">
+  <a href="../assets/vlx-go-architecture.png"><img src="../assets/vlx-go-architecture.png" alt="VLX-Go architecture: RGB history and current frame, frozen DINOv3 and SigLIP encoders, feature fusion, 188 visual tokens plus text, time and action-query tokens, transformer backbone, 3-layer MLP waypoint head, 8 robot-centric waypoints" width="100%"></a>
 </p>
 
 ## Tensors

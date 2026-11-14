@@ -5,7 +5,7 @@
 | `banner.png` | 1280 × 420 | Header of `README.md` / `README.zh-CN.md` |
 | `architecture.svg` | 920 × 960 | Vertical architecture diagram in the English README |
 | `architecture-zh.svg` | 920 × 960 | Vertical architecture diagram in the Chinese README |
-| `vlx-go-architecture.png` | 745 × 403 | "VLX-Go model" section and `docs/VLX_GO.md` |
+| `vlx-go-architecture.png` | 1400 × 357 | "VLX-Go model" section and `docs/VLX_GO.md` |
 | `social-preview.png` | 1280 × 640 | Upload in **GitHub → Settings → Social preview** |
 | `observation-dashboard.png` | 1440 × 1200 | Kept for the screenshot section (to be re-added) |
 | `dashboard-live.jpg` | 1000 × 2330 | Kept for the screenshot section (to be re-added) |
