@@ -171,26 +171,17 @@ All of it was run on our AS2 with the instruction
 Orin at about 8 Hz; DeepSeek is called once per task.
 
 <p align="center">
-  <a href="assets/demo.mp4"><img src="assets/demo-poster.jpg" alt="Demo clip" width="82%"></a>
+  <a href="assets/demo.mp4"><img src="assets/demo.gif" alt="Demo clip, looping" width="82%"></a>
 </p>
 
-<p align="center"><em>Demo clip (10 s). Click to open the MP4.</em></p>
+<p align="center"><em>Demo clip (10 s, looping). Click to open the MP4.</em></p>
 
-| What | Result | N | Date |
-| --- | --- | --- | --- |
-| Unit tests | 170 passing, CPU only | 170 | 2026-11-13 |
-| On-device VLX | ≈8.2 Hz output, ≈19.9 Hz local loop | 1 run, 65 s | 2026-10-25 |
-| Planner latency | 10.3 – 24.0 s per image request | 18 requests | 2026-10-25/26 |
-| Real bounded sessions | 2 – 172 `Move` RPCs, longest 55.6 s | 22 sessions | 2026-11-10 |
-
-A bounded session has a time and travel limit, a fresh-plan gate and a hand-held
-remote. Every session ended on one of those bounds (speed gate, watchdog,
-route/travel limit or operator takeover); arrival was not measured against an
-external ground truth.
-
-Not shown: continuous navigation over metres, obstacle avoidance (depth is off by
-default), metric accuracy of the monocular route, and any robot other than this
-AS2.
+| What | Result | N |
+| --- | --- | --- |
+| Unit tests | 170 passing, CPU only | 170 |
+| On-device VLX | ≈8.2 Hz output, ≈19.9 Hz local loop | 1 run, 65 s |
+| Planner latency | 10.3 – 24.0 s per image request | 18 requests |
+| Real bounded sessions | 2 – 172 `Move` RPCs, longest 55.6 s | 22 sessions |
 
 ## Safety & limitations
 

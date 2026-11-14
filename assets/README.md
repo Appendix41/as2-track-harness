@@ -10,8 +10,9 @@
 | `as2-robot.jpg` | 1400 × 1327 | "Running on an AS2": the robot, camera and onboard computer |
 | `trial-page.png` | 1540 × 1258 | "Running on an AS2": the browser trial page |
 | `dashboard-panels.png` | 1080 × 1155 | "Running on an AS2": observation page panels (captured offline) |
-| `demo.mp4` | 1280 × 720, 10 s, 2.0 MB | Results: demo clip, H.264/AAC |
-| `demo-poster.jpg` | 1280 × 720 | Poster for `demo.mp4` |
+| `demo.mp4` | 1280 × 720, 10 s, 2.0 MB | Results: demo clip, H.264/AAC (the click target) |
+| `demo.gif` | 480 × 270, 10 s, 3.2 MB | Results: inline looping preview, links to `demo.mp4` |
+| `demo-poster.jpg` | 1280 × 720 | Poster frame, not referenced at the moment |
 | `observation-dashboard.png` | 1440 × 1200 | Kept for a future screenshot section |
 | `dashboard-live.jpg` | 1000 × 2330 | Kept for a future screenshot section |
 | `dashboard-history.jpg` | 1000 × 2337 | Kept for a future screenshot section |
@@ -26,6 +27,6 @@ uses a bench setting, not the shipped limits.
 
 ## Video
 
-GitHub does not embed `<video>` in READMEs, so the poster image links to the MP4.
-Keep the clip short and H.264/AAC so the browser can play it without a plugin.
-The full-size poster is 1280 × 720; the README scales it down.
+GitHub does not embed `<video>` in READMEs, so the README uses a looping GIF that
+links to the H.264 MP4. Keep the clip short; the GIF is 480 px wide and 6 fps to
+stay around 3 MB, and the MP4 is the full 1280 × 720 version.
