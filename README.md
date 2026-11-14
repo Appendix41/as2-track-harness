@@ -23,35 +23,24 @@
 
 ---
 
-## Why a slow planner
-
-VLX-Go is fast, but on its own it was not accurate enough in our cluttered lab. It
-returns waypoints from what it sees, and the parts that need scene understanding
-kept going wrong: which of the black chairs is the far one, where the target went
-behind an obstacle, whether the route still makes sense after the view changes.
-The monocular projection flattens distance, so "go to the farthest black seat" is
-exactly the kind of instruction it struggles with.
-
-The slow model handles that part. DeepSeek reads the frame and the instruction and
-returns a ground route; the harness asks it once per task, before the robot moves,
-so its 10–30 s latency never enters the 20 Hz loop. Pairing a slow vision-language
-planner with a fast VLA policy follows the idea of Galbot's integration of Astra
-into a VLA pipeline.
-
-Fast half VLX-Go, slow half DeepSeek, and a gate in between.
-
 ## What this is
 
-The harness runs two models at different speeds and keeps the slow one out of the
-control loop.
+VLX-Go is small and fast: about 8 Hz on the Orin, one frame in, 8×3 body-frame
+waypoints out. Its weakness is judgement. In a cluttered lab it gets the semantic
+parts wrong: which black chair is the far one, where a target went behind an
+obstacle, whether the route still makes sense after the view changes. The
+monocular projection flattens distance, so "go to the farthest black seat" is
+exactly the instruction it struggles with.
 
-- **Fast loop.** VLX-Go returns 8×3 body-frame waypoints at about 8 Hz. It supplies
-  the path shape.
-- **Slow loop.** DeepSeek is asked once per task, before the robot moves, and
-  returns a route in image pixels. It supplies the direction.
+The harness adds a slow planner for that part, and the machinery needed to run the
+pair on a robot. DeepSeek reads the frame and the instruction once per task, before
+the robot moves, and returns a ground route; asking it once keeps its 10–30 s
+latency out of the control loop. The split follows Galbot's integration of Astra
+into a VLA pipeline.
+
 - **Fusion.** The route is projected into the body frame and frozen. Every 20 ms
   tick re-expresses it through the current pose, measures progress along it, and
-  blends its heading into the VLX path, limited to 6° per tick.
+  blends its heading into the VLX waypoints, limited to 6° per tick.
 - **Gate.** A command leaves only if the frame, prediction and telemetry are fresh,
   the robot is in sport mode, no other controller owns it, the remote is idle, and
   speed and tilt are in bounds.
