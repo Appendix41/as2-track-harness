@@ -1,4 +1,4 @@
-# Images
+# Images and media
 
 | File | Size | Where it is used |
 | --- | --- | --- |
@@ -7,30 +7,25 @@
 | `architecture-zh.svg` | 920 × 960 | Vertical architecture diagram in the Chinese README |
 | `vlx-go-architecture.png` | 1400 × 357 | "VLX-Go model" section and `docs/VLX_GO.md` |
 | `social-preview.png` | 1280 × 640 | Upload in **GitHub → Settings → Social preview** |
-| `observation-dashboard.png` | 1440 × 1200 | Kept for the screenshot section (to be re-added) |
-| `dashboard-live.jpg` | 1000 × 2330 | Kept for the screenshot section (to be re-added) |
-| `dashboard-history.jpg` | 1000 × 2337 | Kept for the screenshot section (to be re-added) |
-| `report-comparison.png` | 1100 × 626 | Kept for the screenshot section (to be re-added) |
-| `plan-overlay.png` | 1280 × 930 | Planner input / route / fused path figure, kept for docs |
-| `trial-controls.png` | 1440 × 1200 | Browser trial form, kept for the screenshot section |
-| `trial-page.png` | 1540 × 1258 | "Running on an AS2": trial page screenshot |
 | `as2-robot.jpg` | 1400 × 1327 | "Running on an AS2": the robot, camera and onboard computer |
+| `trial-page.png` | 1540 × 1258 | "Running on an AS2": the browser trial page |
+| `dashboard-panels.png` | 1080 × 1155 | "Running on an AS2": observation page panels (captured offline) |
+| `demo.mp4` | 1280 × 720, 10 s, 2.0 MB | Results: demo clip, H.264/AAC |
+| `demo-poster.jpg` | 1280 × 720 | Poster for `demo.mp4` |
+| `observation-dashboard.png` | 1440 × 1200 | Kept for a future screenshot section |
+| `dashboard-live.jpg` | 1000 × 2330 | Kept for a future screenshot section |
+| `dashboard-history.jpg` | 1000 × 2337 | Kept for a future screenshot section |
+| `report-comparison.png` | 1100 × 626 | Kept for a future screenshot section |
+| `plan-overlay.png` | 1280 × 930 | Planner input / route / fused path figure, kept for docs |
+| `trial-controls.png` | 1440 × 1200 | Browser trial form, kept for a future screenshot section |
 
 The banner and the social card were generated locally (PIL) and contain no
-third-party artwork. The screenshots and the robot photo were taken by the
-authors on their own test bench; the frames show their lab. The trial page uses
-a bench setting, not the shipped limits. Check them again if you publish a fork with your own hardware.
+third-party artwork. The screenshots, the robot photo and the demo clip were taken
+by the authors on their own test bench; the frames show their lab. The trial page
+uses a bench setting, not the shipped limits.
 
-## Video and on-robot photos
+## Video
 
-Add them here when ready; the README no longer reserves a visible block, so the
-markup has to be added back at the same time.
-
-| File | What it should be |
-| --- | --- |
-| `demo.mp4` | A short screen recording or phone clip of the robot (H.264, ≤ 20 MB works best) |
-| `demo-poster.jpg` | One frame from the clip, 16:9, used as the clickable preview |
-| `robot.jpg` | One or two photos of the AS2 with the AGX Orin and camera mounted |
-
-GitHub's README renderer does not embed `<video>`; the usual options are a poster
-image that links to the MP4, a GIF, or a link to an external host.
+GitHub does not embed `<video>` in READMEs, so the poster image links to the MP4.
+Keep the clip short and H.264/AAC so the browser can play it without a plugin.
+The full-size poster is 1280 × 720; the README scales it down.

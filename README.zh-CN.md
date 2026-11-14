@@ -132,6 +132,12 @@ VLX-Go 也可以单独跑：预览服务和 shadow 回路不用规划器就能�
 
 <p align="center"><em>浏览器里的试次页面。限速由操作者每轮填写；截图里是台架测试用的值。仓库默认值低得多（0.05 / 0.03 / 0.10 m/s），第一次实机请从默认值开始。</em></p>
 
+<p align="center">
+  <img src="assets/dashboard-panels.png" alt="观察台面板：当前 RGB 画面、VLX 预测、DeepSeek 规划帧、任务路线与任务阶段" width="82%">
+</p>
+
+<p align="center"><em>观察台的几块面板：RGB 画面、VLX 路径、本任务唯一一次 DeepSeek 计划帧、任务路线和任务阶段。这张截图是在预览服务离线时拍的，各面板显示原因（`URLError`），而不是复用过期路线。</em></p>
+
 ```bash
 DEEPSEEK_API_KEY=... bash scripts/observe.sh --port 8768   # 观察台，仅 loopback
 bash scripts/fusion_trial.sh --duration 10                 # dry-run
@@ -145,18 +151,27 @@ bash scripts/fusion_trial.sh --execute --duration 5 \
 
 ## 结果
 
+以下都在我们这台 AS2 上运行，指令是 `go to the farthest black seat and avoid
+obstacles`。VLX-Go 在机载 Orin 上约 8 Hz，DeepSeek 每个任务只调一次。
+
+<p align="center">
+  <a href="assets/demo.mp4"><img src="assets/demo-poster.jpg" alt="演示片段" width="82%"></a>
+</p>
+
+<p align="center"><em>演示片段（10 s），点击打开 MP4。</em></p>
+
 | 项目 | 结果 | 样本 | 日期 |
 | --- | --- | --- | --- |
 | 单元测试 | 170 项通过，纯 CPU | 170 | 2026-11-13 |
-| 快策略频率 | VLX 约 8.2 Hz，本地回路约 19.9 Hz | 1 次，65 s | 2026-10-25 |
+| 机载 VLX | 输出约 8.2 Hz，本地回路约 19.9 Hz | 1 次，65 s | 2026-10-25 |
 | 规划器延迟 | 每次图像请求 10.3 – 24.0 s | 18 次请求 | 2026-10-25/26 |
-| 首次真机短步 | 17 条 `Move`、0.81 s、前进 4.27 cm | 1 次 | 2026-10-25 |
-| 受控实机会话 | 每次 2 – 172 条 `Move`，最长 55.6 s | 22 次 | 2026-11-10 |
-| mock 影子运行 | 计划被接受，0 条指令 | 1 次 | 2026-11-13 |
+| 真机受控会话 | 每次 2 – 172 条 `Move`，最长 55.6 s | 22 次 | 2026-11-10 |
 
-首次短步和受控会话都是被 harness 自己的边界停下的（速度门控、路线/行程上限、看门狗、
-遥控接管）；到达没有用外部真值测量。未验证：超过数米的连续导航、真机避障（深度默认
-关闭）、路线的米制精度、换一台机器人。
+"受控会话"指有时间/行程上限、新鲜计划门控、且有人手持遥控器的试次。每次都停在某个边界上
+（速度门控、看门狗、路线/行程上限或人工接管）；到达没有用外部真值测量。
+
+未展示：超过数米的连续导航、真机避障（深度默认关闭）、单目路线的米制精度，以及这台
+AS2 之外的机器人。
 
 ## 安全声明与已知限制
 

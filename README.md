@@ -147,6 +147,12 @@ so this build has no VLX-only motion mode.
 
 <p align="center"><em>The browser trial page. Limits are entered per run; the values above are a bench setting. The shipped defaults are much lower (0.05 / 0.03 / 0.10 m/s) and are the ones to start from.</em></p>
 
+<p align="center">
+  <img src="assets/dashboard-panels.png" alt="Observation page panels: current RGB frame, VLX prediction, DeepSeek plan frame, task route and task phase" width="82%">
+</p>
+
+<p align="center"><em>The observation page: RGB frame, VLX path, the one DeepSeek plan frame, the task route and the task phase. This capture was taken with the preview service offline, so each panel shows the reason (`URLError`) instead of reusing a stale route.</em></p>
+
 ```bash
 DEEPSEEK_API_KEY=... bash scripts/observe.sh --port 8768   # dashboard on loopback
 bash scripts/fusion_trial.sh --duration 10                 # dry run
@@ -160,20 +166,31 @@ Read [SAFETY.md](docs/SAFETY.md) before the first real run, and
 
 ## Results
 
+All of it was run on our AS2 with the instruction
+`go to the farthest black seat and avoid obstacles`. VLX-Go runs on the onboard
+Orin at about 8 Hz; DeepSeek is called once per task.
+
+<p align="center">
+  <a href="assets/demo.mp4"><img src="assets/demo-poster.jpg" alt="Demo clip" width="82%"></a>
+</p>
+
+<p align="center"><em>Demo clip (10 s). Click to open the MP4.</em></p>
+
 | What | Result | N | Date |
 | --- | --- | --- | --- |
 | Unit tests | 170 passing, CPU only | 170 | 2026-11-13 |
-| Fast policy rate | ≈8.2 Hz VLX output, ≈19.9 Hz local loop | 1 run, 65 s | 2026-10-25 |
+| On-device VLX | ≈8.2 Hz output, ≈19.9 Hz local loop | 1 run, 65 s | 2026-10-25 |
 | Planner latency | 10.3 – 24.0 s per image request | 18 requests | 2026-10-25/26 |
-| First real step | 17 `Move` RPCs, 0.81 s, 4.27 cm forward | 1 run | 2026-10-25 |
-| Bounded real sessions | 2 – 172 `Move` RPCs, longest 55.6 s | 22 sessions | 2026-11-10 |
-| Mock shadow run | plan accepted, 0 commands sent | 1 run | 2026-11-13 |
+| Real bounded sessions | 2 – 172 `Move` RPCs, longest 55.6 s | 22 sessions | 2026-11-10 |
 
-The first step and the bounded sessions ended on the harness's own bounds (speed
-gate, route/travel bound, watchdog, remote takeover); arrival was not measured
-against an external ground truth. Not validated: continuous navigation over metres,
-obstacle avoidance (depth is off by default), metric accuracy of the route, and any
-robot other than this one.
+A bounded session has a time and travel limit, a fresh-plan gate and a hand-held
+remote. Every session ended on one of those bounds (speed gate, watchdog,
+route/travel limit or operator takeover); arrival was not measured against an
+external ground truth.
+
+Not shown: continuous navigation over metres, obstacle avoidance (depth is off by
+default), metric accuracy of the monocular route, and any robot other than this
+AS2.
 
 ## Safety & limitations
 
