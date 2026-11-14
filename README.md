@@ -16,6 +16,7 @@
   <a href="#quick-start-no-robot-required"><img src="https://img.shields.io/badge/tests-170%20passing-brightgreen.svg" alt="Tests"></a>
   <a href="#safety--limitations"><img src="https://img.shields.io/badge/status-research%20prototype-orange.svg" alt="Status"></a>
   <a href="NOTICE"><img src="https://img.shields.io/badge/weights-not%20released-lightgrey.svg" alt="Weights"></a>
+  [![CI](https://github.com/Appendix41/as2-track-harness/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Appendix41/as2-track-harness/actions/workflows/ci.yml)
 </p>
 
 <p align="center">
