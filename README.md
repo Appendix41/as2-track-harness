@@ -23,6 +23,26 @@
 
 ---
 
+## 🌟 特别鸣谢
+
+<table>
+  <tr>
+    <td width="180" align="center">
+      <a href="https://api.entropicecho.com/">
+        <img src="https://doc.entropicecho.com/img/entropicecho-icon.png" width="110" alt="熵之回响">
+      </a>
+    </td>
+    <td>
+      <a href="https://api.entropicecho.com/"><strong>Entropic Echo</strong></a><br><br>
+      感谢 <strong>Entropic Echo</strong> 对本项目开发过程提供的支持。
+      在资料整理、代码分析、问题排查与开发调试过程中，Entropic Echo提供的API服务为项目推进提供了便利与帮助。
+    </td>
+  </tr>
+</table>
+<br>
+
+> Note: the Entropic Echo API relay used by this project (api.entropicecho.com) is set up and maintained by the author.
+
 ## What this is
 
 VLX-Go is small and fast: about 8 Hz on the Orin, one frame in, 8×3 body-frame

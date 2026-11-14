@@ -23,6 +23,26 @@
 
 ---
 
+## 🌟 特别鸣谢
+
+<table>
+  <tr>
+    <td width="180" align="center">
+      <a href="https://api.entropicecho.com/">
+        <img src="https://doc.entropicecho.com/img/entropicecho-icon.png" width="110" alt="熵之回响">
+      </a>
+    </td>
+    <td>
+      <a href="https://api.entropicecho.com/"><strong>Entropic Echo</strong></a><br><br>
+      感谢 <strong>Entropic Echo</strong> 对本项目开发过程提供的支持。
+      在资料整理、代码分析、问题排查与开发调试过程中，Entropic Echo提供的API服务为项目推进提供了便利与帮助。
+    </td>
+  </tr>
+</table>
+<br>
+
+> 注：本项目使用的 Entropic Echo API 中转站（api.entropicecho.com）由作者自行搭建与维护。
+
 ## 这是什么
 
 VLX-Go 小而快：在 Orin 上约 8 Hz，一帧图像进、8×3 机身系航点出。它弱在判断力。在我们
