@@ -43,7 +43,7 @@
 ## 架构
 
 <p align="center">
-  <img src="assets/architecture.svg" alt="快 VLX-Go 回路与慢 DeepSeek 规划器进入融合、安全门控和执行器，最后到 AS2" width="600">
+  <img src="assets/architecture-zh.svg" alt="快 VLX-Go 回路与慢 DeepSeek 规划器进入融合、安全门控和执行器，最后到 AS2" width="600">
 </p>
 
 快策略按相机频率跑，慢规划器每任务一次，所有指令都要过同一道门控。
@@ -55,6 +55,24 @@
 ```
 
 坐标契约、融合公式和门控顺序见 [架构文档](docs/ARCHITECTURE.md)。
+
+### VLX-Go 模型
+
+快策略是外部模型，本仓库只消费它的 8×3 输出。结构供参考：
+
+<p align="center">
+  <img src="assets/vlx-go-architecture.png" alt="VLX-Go 模型结构：188 个视觉 token、文本与动作查询 token、Transformer 主干、三层 MLP 航点头" width="700">
+</p>
+
+- 31 帧历史 × 4 个 token，加当前帧 64 个 token，共 188 个视觉 token；DINOv3 与
+  SigLIP 特征经对齐、拼接、池化后每个 token 1536 维。
+- 共享 Adapter 把 1536 维映射到 1024 维；指令分词后得到 L 个文本 token，再拼上
+  时间标记和 1 个 ACT token。
+- Qwen3 做一次前向；ACT 位置的输出经三层 MLP（1024 → 24）得到 8×3 机身系路径点。
+- 执行器取第 2 个点 ÷ 0.1 s，作为前向、侧向、转向速度。
+
+张量形状和完整流程见 [docs/VLX_GO.md](docs/VLX_GO.md)。图来自上游项目（om-ai-lab，
+arXiv:2610.19361），模型和权重不在本仓库。
 
 ## 快速开始（无需机器人）
 

@@ -62,6 +62,28 @@ idle --new task--> planning --plan accepted--> executing --arrival / timeout--> 
 The [architecture document](docs/ARCHITECTURE.md) has the coordinate contract, the
 fusion formulas and the gate order.
 
+### VLX-Go model
+
+The fast policy is external; this repository only consumes its 8×3 output. Its
+architecture, for reference:
+
+<p align="center">
+  <img src="assets/vlx-go-architecture.png" alt="VLX-Go architecture: 188 visual tokens, text and action-query tokens, transformer backbone, 3-layer MLP waypoint head" width="700">
+</p>
+
+- 31 history frames × 4 tokens plus 64 current tokens give 188 visual tokens, 1536
+  dimensions each after DINOv3 and SigLIP features are aligned and pooled.
+- A shared adapter maps 1536 → 1024. The instruction becomes L text tokens; time
+  indicators and one action-query token are appended.
+- Qwen3 runs one forward pass. The action-query position goes through a 3-layer MLP
+  (1024 → 24) and becomes 8×3 body-frame waypoints.
+- The executor uses waypoint 2 divided by 0.1 s as forward, lateral and yaw
+  velocity.
+
+Details and tensor shapes: [docs/VLX_GO.md](docs/VLX_GO.md). The figure is from the
+upstream project (om-ai-lab, arXiv:2610.19361); the model and weights are not
+included here.
+
 ## Quick start (no robot required)
 
 ```bash

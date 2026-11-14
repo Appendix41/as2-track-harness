@@ -5,6 +5,7 @@ Four documents carry the design; everything else is in the code and its tests.
 | Document | Read it when you want to… |
 | --- | --- |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | understand the data flow, the task lifecycle, the fusion math and the route/arrival contract |
+| [VLX_GO.md](VLX_GO.md) | follow the tensors and the flow of the upstream VLX-Go model that produces the 8×3 waypoints |
 | [SAFETY.md](SAFETY.md) | know exactly which gates exist, their hard limits, the stop semantics, and what the system does **not** provide |
 | [RUNBOOK.md](RUNBOOK.md) | install, run the offline demo, open the dashboard, prepare a real-robot session, and decode common error reasons |
 | [CONFIGURATION.md](CONFIGURATION.md) | look up a configuration field, its default and its validation range |
