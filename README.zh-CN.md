@@ -104,6 +104,12 @@ PYTHONPATH=src python -m vlx_async.replay \
 
 ## 在 AS2 上运行
 
+<p align="center">
+  <img src="assets/as2-robot.jpg" alt="Unitree AS2，前支架装 RealSense D435i，背部是 Jetson AGX Orin" width="82%">
+</p>
+
+<p align="center"><em>Unitree AS2。前支架是 Intel RealSense D435i；背部 Jetson AGX Orin 跑 VLX-Go、规划客户端和 DDS 栈。</em></p>
+
 仓库里没有模型。需要自备：
 
 - 一个 **VLX-Go 预览服务**，在 `127.0.0.1:8765` 提供 `/control.json` 和 `/state.json`；
@@ -116,6 +122,15 @@ PYTHONPATH=src python -m vlx_async.replay \
 VLX-Go-1.0 和 SigLIP 权重在 Hugging Face 公开，DINOv3 需要申请，推理代码在
 `om-ai-lab/VLX-Go`。推理也可以放到另一台机器，适配器留在机器人主机上
 （见 [远程推理](docs/REMOTE_INFERENCE.md)）。
+
+VLX-Go 也可以单独跑：预览服务和 shadow 回路不用规划器就能看到原始 8×3 路径。执行器
+仍然要求一份被接受的计划，所以当前版本没有"纯 VLX 实机运动"模式。
+
+<p align="center">
+  <img src="assets/trial-page.png" alt="试次页面：当前任务、规划状态、操作者限速、启动与停止" width="82%">
+</p>
+
+<p align="center"><em>浏览器里的试次页面。限速由操作者每轮填写；截图里是台架测试用的值。仓库默认值低得多（0.05 / 0.03 / 0.10 m/s），第一次实机请从默认值开始。</em></p>
 
 ```bash
 DEEPSEEK_API_KEY=... bash scripts/observe.sh --port 8768   # 观察台，仅 loopback

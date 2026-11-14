@@ -13,11 +13,13 @@
 | `report-comparison.png` | 1100 × 626 | Kept for the screenshot section (to be re-added) |
 | `plan-overlay.png` | 1280 × 930 | Planner input / route / fused path figure, kept for docs |
 | `trial-controls.png` | 1440 × 1200 | Browser trial form, kept for the screenshot section |
+| `trial-page.png` | 1540 × 1258 | "Running on an AS2": trial page screenshot |
+| `as2-robot.jpg` | 1400 × 1327 | "Running on an AS2": the robot, camera and onboard computer |
 
 The banner and the social card were generated locally (PIL) and contain no
-third-party artwork. The screenshots were captured by the authors on their own
-test bench; the RGB frames show their lab, and no people are identifiable in
-them. Check them again if you publish a fork with your own hardware.
+third-party artwork. The screenshots and the robot photo were taken by the
+authors on their own test bench; the frames show their lab. The trial page uses
+a bench setting, not the shipped limits. Check them again if you publish a fork with your own hardware.
 
 ## Video and on-robot photos
 

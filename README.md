@@ -117,6 +117,12 @@ PYTHONPATH=src python -m vlx_async.replay \
 
 ## Running on an AS2
 
+<p align="center">
+  <img src="assets/as2-robot.jpg" alt="Unitree AS2 with a RealSense D435i on the front bracket and a Jetson AGX Orin on the back" width="82%">
+</p>
+
+<p align="center"><em>Unitree AS2. Intel RealSense D435i on the front bracket; the Jetson AGX Orin on the back runs VLX-Go, the planner client and the DDS stack.</em></p>
+
 The repository ships no models. You supply:
 
 - a **VLX-Go preview service** on `127.0.0.1:8765` serving `/control.json` and
@@ -130,6 +136,16 @@ The repository ships no models. You supply:
 VLX-Go-1.0 and SigLIP weights are public on Hugging Face, DINOv3 is gated, and the
 inference code is `om-ai-lab/VLX-Go`. Inference can run on another machine; the
 adapter stays on the robot host (see [remote inference](docs/REMOTE_INFERENCE.md)).
+
+VLX-Go also runs on its own: the preview service and the shadow loop show its raw
+8×3 paths without a planner request. The executor still requires an accepted plan,
+so this build has no VLX-only motion mode.
+
+<p align="center">
+  <img src="assets/trial-page.png" alt="Trial page: current task, planner state, operator limits, start and stop" width="82%">
+</p>
+
+<p align="center"><em>The browser trial page. Limits are entered per run; the values above are a bench setting. The shipped defaults are much lower (0.05 / 0.03 / 0.10 m/s) and are the ones to start from.</em></p>
 
 ```bash
 DEEPSEEK_API_KEY=... bash scripts/observe.sh --port 8768   # dashboard on loopback
