@@ -2,7 +2,7 @@
 
 | File | Size | Where it is used |
 | --- | --- | --- |
-| `banner.png` | 1280 × 420 | Header of `README.md` / `README.zh-CN.md` |
+| `banner.png` | 1280 × 460 | Header of `README.md` / `README.zh-CN.md` |
 | `architecture.svg` | 920 × 960 | Vertical architecture diagram in the English README |
 | `architecture-zh.svg` | 920 × 960 | Vertical architecture diagram in the Chinese README |
 | `vlx-go-architecture.png` | 1400 × 357 | "VLX-Go model" section and `docs/VLX_GO.md` |
