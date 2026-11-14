@@ -1,0 +1,20 @@
+{
+  "execution_enabled": false,
+  "source_url": "http://127.0.0.1:8765",
+  "loop_hz": 20,
+  "read_hz": 10,
+  "slow_min_interval_s": 1,
+  "slow_mode": "route",
+  "provider": {
+    "kind": "mock",
+    "delay_s": 7,
+    "angle_deg": 20
+  },
+  "calibration_path": null,
+  "context_path": null,
+  "fusion": {
+    "max_slow_age_s": 8,
+    "decay_s": 4,
+    "max_slow_weight": 0.65
+  }
+}

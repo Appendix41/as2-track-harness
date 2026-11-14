@@ -1,0 +1,43 @@
+AS2 Track Harness
+Copyright 2026 AS2 Track Harness contributors
+
+This product includes software and models developed by third parties. The
+following attributions are provided for transparency; each component remains
+under its own license and is NOT relicensed by this repository.
+
+1. VLX-Go / OmTrackVLA
+   The fast vision-language-action waypoint policy that produces the 8x3
+   body-frame waypoints consumed by this harness. The model architecture,
+   weights, configuration and inference code are not part of this repository
+   and are not redistributed here. Obtain them from the upstream project and
+   comply with its license.
+
+2. DINOv3 and SigLIP
+   Vision encoders commonly used by VLX-Go-family policies. Neither the
+   weights nor the upstream source code are redistributed here; they remain
+   subject to their own model and code licenses.
+
+3. DeepSeek API
+   The slow planner sends one image request per task to a DeepSeek model
+   through an OpenAI-compatible HTTPS endpoint. No model weights are included.
+   API access is governed by DeepSeek's terms of service.
+
+4. Unitree SDK2 and the AS2 sport client
+   Used only by the optional hardware telemetry and execution paths. The SDK
+   is not vendored here; install it from Unitree. "Unitree" and "AS2" are
+   trademarks of their respective owner and are used only to describe
+   compatibility.
+
+5. Eclipse Cyclone DDS
+   Optional DDS transport used by the read-only telemetry subscriber. Not
+   vendored; distributed under the Eclipse Public License 2.0 / Eclipse
+   Distribution License 1.0.
+
+6. Python dependencies
+   numpy (BSD-3-Clause), Pillow (HPND), OpenCV (Apache-2.0) and the optional
+   hardware packages are installed separately by the user and stay under their
+   own licenses.
+
+Model weights are NOT redistributed with this repository. No third-party model
+checkpoint, dataset, robot firmware or vendor library is included in this
+source tree.

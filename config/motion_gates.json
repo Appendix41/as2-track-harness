@@ -1,0 +1,4 @@
+{
+  "obstacle_stop_enabled": false,
+  "note": "false: measured obstacles are recorded but never stop motion; only remote takeover and the control watchdog do. true: restore measured-obstacle stops (requires the optional depth service). A missing or malformed file counts as true."
+}

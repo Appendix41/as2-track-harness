@@ -1,0 +1,31 @@
+{
+  "execution_enabled": false,
+  "source_url": "http://127.0.0.1:8765",
+  "loop_hz": 20,
+  "read_hz": 10,
+  "slow_min_interval_s": 2,
+  "slow_mode": "route",
+  "provider": {
+    "kind": "openai_responses",
+    "model": "deepseek-v4.1-flash",
+    "api_key_env": "DEEPSEEK_API_KEY",
+    "reasoning_effort": "high",
+    "timeout_s": 60,
+    "max_output_tokens": 6000,
+    "max_calls": 1
+  },
+  "calibration_path": null,
+  "context_path": null,
+  "fusion": {
+    "plan_weight": 0.8,
+    "max_heading_change_rad": 3.141592653589793,
+    "plan_lookahead_m": 2.0,
+    "plan_endpoint_weight": 1.0
+  },
+  "task": {
+    "plan_timeout_s": 90.0,
+    "task_timeout_s": 60.0,
+    "arrival_distance_m": 0.35,
+    "max_travel_m": 2.0
+  }
+}

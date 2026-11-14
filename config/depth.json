@@ -1,0 +1,4 @@
+{
+  "depth_obstacles_enabled": false,
+  "note": "false: no depth obstacle detection, no obstacle braking, and the depth process is not started with the experiment environment. true restores all three (requires pyrealsense2 and a D435i-style depth camera). Fail-safe: a missing or unreadable file counts as true."
+}

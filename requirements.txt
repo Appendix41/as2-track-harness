@@ -1,0 +1,12 @@
+# Core runtime (required by the runner, fusion and execution gates).
+numpy>=1.26,<3
+
+# Optional: dashboard/report rendering (equivalent to the `vision` extra).
+# opencv-python-headless>=4.8
+# pillow>=10
+
+# Optional: read-only DDS telemetry and real-robot execution (Linux only).
+# These are also available as the `hardware` extra. unitree_sdk2py may need to
+# be installed from a local Unitree SDK2 checkout on your platform.
+# cyclonedds>=0.10
+# unitree_sdk2py>=1.0

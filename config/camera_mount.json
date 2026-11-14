@@ -1,0 +1,22 @@
+{
+  "note": "Declared camera mount for projecting an image-space plan to the ground plane. Replace the intrinsics with your own calibration and measure height/pitch. Not an obstacle sensor and not a standoff measurement.",
+  "height_hint_m": 0.5,
+  "height_source": "operator measurement",
+  "camera_forward_m": 0.0,
+  "camera_left_m": 0.0,
+  "camera_yaw_rad": 0.0,
+  "body_transform_verified": true,
+  "model_frame_verified": true,
+  "timestamp_calibration_verified": false,
+  "height_m": 0.5,
+  "pitch_rad": 0.0,
+  "intrinsics": {
+    "width": 640,
+    "height": 480,
+    "fx": 605.3713989257812,
+    "fy": 605.1307983398438,
+    "ppx": 330.8877868652344,
+    "ppy": 257.2687683105469,
+    "source": "example colour-camera factory calibration; replace with your own"
+  }
+}

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VLX × DeepSeek · 任务级规划观察台</title>
+<style>
+:root{color-scheme:dark;--bg:#0b111b;--panel:#152030;--line:#2a3b51;--text:#e4edf8;--muted:#9badc2;--blue:#6eb3ff;--violet:#bc9aff;--green:#5be0ba;--amber:#f2c777;--red:#ff9f9f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,-apple-system,sans-serif}
+main{max-width:1540px;margin:auto;padding:24px}
+header,.row,.panelhead{display:flex;align-items:center;justify-content:space-between;gap:16px}
+h1{font-size:25px;letter-spacing:-.5px;margin:0 0 6px}h2{font-size:16px;margin:0}p{line-height:1.6;margin:8px 0;color:var(--muted)}
+.eyebrow{font-size:11px;letter-spacing:2px;color:var(--green);margin-bottom:8px}
+.pill{display:inline-block;border:1px solid #42536b;border-radius:18px;padding:6px 11px;white-space:nowrap;color:var(--muted)}
+.good{color:var(--green);border-color:#347563}.warn{color:var(--amber);border-color:#84683c}.bad{color:var(--red);border-color:#844850}
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:20px 0 16px}
+button,select,a.button{font:inherit;border:1px solid #40536d;background:#1b2b40;border-radius:8px;color:var(--text);padding:9px 13px;text-decoration:none;cursor:pointer}
+.active{border-color:var(--blue);color:var(--blue)}.subtle{font-size:12px;color:var(--muted)}
+.banner{padding:12px 16px;border:1px solid #3c526e;border-radius:9px;margin-bottom:16px;line-height:1.6;background:#142238}
+.banner.archive{border-color:#8a693a;background:#302619;color:var(--amber)}
+.metrics{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:16px 0}
+.metric,.panel,.task,.details{border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.metric{padding:14px 16px}.metric label{display:block;font-size:12px;color:var(--muted)}
+.metric b{display:block;font-size:22px;margin:6px 0;font-variant-numeric:tabular-nums}.metric small{color:var(--muted);font-size:11px}
+.task{padding:15px 18px;display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:14px}
+.panel{padding:16px 18px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.visual{position:relative;background:#09101a;border-radius:9px;overflow:hidden;margin-top:12px}
+.visual canvas{display:block;width:100%;height:auto}
+.foot{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin-bottom:8px}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.flow div{border:1px solid var(--line);border-radius:9px;padding:12px}.flow b{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+.testpanel{margin:16px 0}.testfields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:16px 0}
+.testfields label{display:flex;flex-direction:column;gap:7px;color:var(--muted);font-size:12px}
+.testfields input,.testfields select{width:100%;min-width:0;font:inherit;font-size:14px;color:var(--text);background:#0e1826;border:1px solid #40536d;border-radius:7px;padding:9px}
+.testfields small{line-height:1.5}button:disabled{opacity:.45;cursor:not-allowed}
+.queuefield{display:flex;flex-direction:column;gap:7px;color:var(--muted);font-size:12px;margin:0 0 14px}
+#taskQueue{width:100%;font:inherit;font-size:14px;color:var(--text);background:#0e1826;border:1px solid #40536d;border-radius:7px;padding:9px;resize:vertical}
+#startTest{background:#164c40;border-color:#368b72}#stopTest{background:#562c35;border-color:#b56672}
+.teststatus{line-height:1.8;padding:12px;background:#0e1826;border-radius:8px;overflow-wrap:anywhere}
+#testError{color:var(--red)}#testTimeline{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:12px}
+.progress{height:9px;border-radius:6px;background:#0e1826;border:1px solid #26384d;overflow:hidden;margin:10px 0 6px}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,#2f7f68,#5be0ba);width:0}
+pre{white-space:pre-wrap;word-break:break-word;font:12px ui-monospace,monospace;color:#b9cadd;max-height:320px;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{text-align:left;padding:5px 6px;border-bottom:1px solid #22334a;color:var(--muted)}
+@media(max-width:900px){.grid,.flow{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.testfields{grid-template-columns:1fr 1fr}}
+</style></head>
+<body><main>
+<header><div><div class="eyebrow">AS2 · ONE PLAN PER TASK</div><h1>VLX × DeepSeek · 任务级规划观察台</h1><p>每个任务起步前推理一次 · 执行中不再请求模型 · 任务结束后等新任务</p></div><div class="row"><span class="pill" id="connection">正在连接</span><span class="pill good">独立任务实验</span></div></header>
+<nav class="toolbar" aria-label="观察模式"><button id="liveButton" class="active">实时观察</button><button id="archiveButton">历史实验回看</button><div id="archiveControls"><select id="archiveSelect" aria-label="选择历史实验"><option value="">读取历史实验…</option></select><button id="reloadArchives">刷新记录</button></div><span class="subtle">本页独立观察与控制任务</span></nav>
+<div class="banner" id="modeBanner" role="status">正在连接实验服务…</div>
+<div class="task"><div><p style="margin:0 0 5px">当前 VLX 任务</p><strong id="instruction">—</strong></div><span class="pill" id="robotState">等待机器人遥测</span></div>
+
+<section class="panel" aria-label="实验环境" style="margin-bottom:16px">
+<div class="panelhead"><h2>实验环境</h2><span class="pill" id="stackState">检查中</span></div>
+<p class="subtle" id="stackNote" style="margin-top:10px">不实验时可以让 AGX 停止 VLX 模型、手动服务与遥测；观察台本身保持在线，随时可以一键拉起。</p>
+<div class="toolbar" style="margin:12px 0 0"><button id="stackStart">启动实验环境</button><button id="stackStop">停止实验环境</button><span class="subtle" id="stackComponents">—</span></div>
+</section>
+<section class="panel testpanel" aria-label="任务级测试控制">
+<div class="panelhead" style="padding:0 0 14px"><h2>启动任务测试</h2><span id="testModeBadge">测试未启动</span></div>
+<p>本版已删除深度链路：没有目标测距、没有障碍物否决。每个任务在狗起步<strong>之前</strong>只向 DeepSeek 请求一次地面路线，执行过程中不再推理；到达终点、超时或人工停止后，接受新的 VLX 任务才会再次推理。</p>
+<div class="testfields">
+<label>测试模式<select id="testMode"><option value="shadow">观察测试 · 不发送运动</option><option value="execute">实机 · 按自定义参数执行</option></select></label>
+<label>前进速度上限（m/s）<input id="testSpeed" type="number" min="0.01" step="any" value="0.05" required><small>合速度取前进与侧移上限的较大值。</small></label>
+<label>侧向速度上限（m/s）<input id="testLateral" type="number" min="0.01" step="any" value="0.02" required></label>
+<label>转向角速度上限（rad/s）<input id="testYaw" type="number" min="0.02" step="any" value="0.10" required></label>
+<label>线加速度（m/s²）<input id="linearAcceleration" type="number" min="0.01" step="any" value="0.30" required></label>
+<label>转向加速度（rad/s²）<input id="yawAcceleration" type="number" min="0.01" step="any" value="0.60" required></label>
+<label>实测速度停止上限（m/s）<input id="observedSpeedLimit" type="number" min="0.01" step="any" value="0.12" required><small>遥测平移速度超过此值即停止。</small></label>
+<label>等待 DeepSeek 规划上限（秒）<input id="testDuration" type="number" min="1" max="86400" step="any" value="90" required><small>等待 VLX 初始化后开始计时；超时本任务受阻，不会自动重试。</small></label>
+<label>任务运动时长上限（秒）<input id="motionDuration" type="number" min="0.5" max="86400" step="any" value="60" required><small>从开始运动计时；到达终点或点击停止也会结束。</small></label>
+<label>等待 VLX 就绪上限（秒）<input id="startupTimeout" type="number" min="1" max="86400" step="any" value="90" required></label>
+<label>本任务最远行走（米）<input id="maxTravel" type="number" min="0.2" max="10" step="any" value="2.0" required><small>单目路线长度不可靠；走到这个距离一定停，防止越过目标。到点判定仍按计划路线。</small></label>
+</div>
+<label class="queuefield">任务队列（每行一个任务，按顺序执行；留空则使用 VLX 当前指令）
+<textarea id="taskQueue" rows="3" spellcheck="false" placeholder="GO to black seat&#10;walk to the white door"></textarea></label>
+<div class="toolbar"><button id="startTest" disabled>开始任务</button><button id="stopTest" disabled>停止本轮</button><button id="clearBlocker" disabled>解除阻塞</button><button id="useOriginalSettings" disabled>读取原网页速度 / 加速度</button><button id="saveLimits" disabled>保存实测上限</button><span id="keyStatus" class="subtle">正在检查服务端 API 配置</span></div>
+<p id="limitStatus" class="subtle" role="status">读取已保存上限…</p>
+<p id="parameterNote" class="subtle" role="status"></p>
+<div id="pipelineStatus" class="teststatus" role="status">本任务 DeepSeek — · 计划 — · 运动命令 —</div>
+<div id="testStatus" class="teststatus" role="status">等待服务连接</div><p id="testError" role="alert"></p>
+<div id="testTimeline"><span id="waitTime">等待 —</span><span id="activeTime">规划 —</span><span id="motionTime">运动 —</span><span id="callCount">DeepSeek —</span></div>
+</section>
+
+<section class="panel" aria-label="本任务" style="margin-bottom:16px">
+<div class="panelhead"><h2>本任务</h2><span class="pill" id="taskPhase">等待任务</span></div>
+<p id="taskNote" class="subtle" style="margin-top:10px">等待任务计划。</p>
+<div class="progress"><span id="taskBar"></span></div>
+<div class="row" style="font-size:12px;color:var(--muted)"><span id="taskRemaining">剩余路线 —</span><span id="taskObstacle">实测障碍 —</span><span id="taskCalls">DeepSeek 调用 —</span><span id="taskPlanId">计划 —</span></div>
+</section>
+
+<div class="metrics"><div class="metric"><label>VLX 输出</label><b id="fastHz">—</b><small>模型报告的近期频率</small></div><div class="metric"><label>相机接收</label><b id="cameraHz">—</b><small>本页画面约 5 Hz 刷新</small></div><div class="metric"><label>预测年龄</label><b id="predictionAge">—</b><small id="frameAge">—</small></div><div class="metric"><label id="slowMetricTitle">本任务规划</label><b id="slowLatency">—</b><small id="slowActivity">等待独立实验</small></div><div class="metric"><label>本地循环</label><b id="loopHz">—</b><small id="loopNote">等待独立实验</small></div><div class="metric"><label>机器人遥测年龄</label><b id="telemetryAge">—</b><small id="controlState">—</small></div></div>
+
+<div class="grid">
+ <section class="panel"><div class="panelhead"><h2>当前 RGB 画面</h2><span id="frameLabel">等待相机</span></div><div class="visual"><canvas id="liveImage" width="800" height="600" aria-label="当前 VLX 使用的相机图像"></canvas><span class="overlay" id="cameraBadge">等待图像</span></div><div class="foot" id="cameraFoot">画面与 VLX 航点来自同一快照。</div></section>
+ <section class="panel"><div class="panelhead"><h2>当前 VLX 预测轨迹</h2><span id="pathLabel">机身局部坐标 · 米</span></div><div class="visual"><canvas id="fastMap" width="800" height="600" aria-label="当前 VLX 预测的八个局部导航点"></canvas></div><div class="foot"><div class="legend"><span style="color:var(--blue)">● VLX 原始航点</span><span>↑ 前方 x · ← 左侧 y</span></div><span id="fastNote">预测轨迹，不代表机器人已经走过的路线。</span></div></section>
+</div>
+
+<div class="grid">
+ <section class="panel"><div class="panelhead"><h2>DeepSeek 规划帧</h2><span id="requestLabel">等待计划</span></div><div class="visual"><canvas id="requestImage" width="800" height="600" aria-label="生成计划时的图像与图像坐标路线"></canvas><span class="overlay warn" id="requestBadge">规划帧 · 非当前画面</span></div><div class="foot"><div class="legend"><span style="color:var(--amber)">● 图像坐标路线</span></div><span id="requestNote">图像坐标不等于机身米制轨迹；米制路线由相机高度与内参投影得到。</span></div></section>
+ <section class="panel"><div class="panelhead"><h2>本任务路线 · 机身坐标</h2><span id="comparisonLabel">等待实时实验</span></div><div class="visual small"><canvas id="compareMap" width="800" height="450" aria-label="VLX、已对齐计划路线和最终建议轨迹"></canvas></div><div class="foot"><div class="legend"><label style="color:var(--blue)"><input type="checkbox" data-layer="fast" checked>VLX</label><label style="color:var(--violet)"><input type="checkbox" data-layer="plan_aligned" checked>计划路线</label><label style="color:var(--green)"><input type="checkbox" data-layer="recommended" checked>最终建议</label><label><input type="checkbox" data-layer="candidates">候选轨迹</label></div><span id="comparisonNote">尚未收到本任务计划。</span></div></section>
+</div>
+
+<section class="panel" style="margin-bottom:16px"><div class="panelhead"><h2>任务阶段</h2><span id="modelLabel">deepseek-v4.1-flash · high</span></div>
+<div class="flow"><div><b>① 任务</b><span id="targetState">等待指令</span></div><div><b>② 一次推理</b><span id="routeState">等待计划</span></div><div><b>③ 路线跟随</b><span id="trackState">未开始</span></div><div><b>④ 到达 / 受阻</b><span id="fusionState">未完成</span></div></div></section>
+
+<section class="panel"><div class="panelhead"><h2>决策诊断</h2><span class="pill" id="selectionLabel">—</span></div>
+<p id="decisionReason">等待当前实验。</p><p id="targetDescription"></p>
+<details><summary>展开完整诊断字段</summary><pre id="diagnostics">{}</pre></details></section>
+
+<details class="details" style="margin-top:16px"><summary>当前 VLX 八个航点数值 · x / y / yaw</summary><table><thead><tr><th>序号</th><th>x / m</th><th>y / m</th><th>yaw / rad</th></tr></thead><tbody id="waypoints"></tbody></table></details>
+<footer class="foot">打开页面只观察；点击开始才发起 API 请求。每个任务只在起步前推理一次。<br>蓝色 = VLX；紫色 = 已对齐的计划路线；绿色 = 最终建议。<br><span id="updated">等待首次更新</span></footer>
+</main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id),colors={fast:'#6eb3ff',plan_aligned:'#bc9aff',recommended:'#5be0ba'};
+const layers=new Set(['fast','plan_aligned','recommended']);
+let current=null,view='live',connected=false,lastReceipt=0;
+const images={};
+const why={
+ plan_pending:'等待 DeepSeek 规划',plan_locked:'本任务已锁定，不再推理',plan_already_active:'本任务已有计划',
+ task_ready:'计划就绪 · 执行中',route_completed:'已到达任务终点',task_arrived:'任务完成',
+ route_drift:'偏离计划路线，保持停止',plan_requires_reverse:'计划要求掉头，已拒绝',
+ plan_route_above_horizon:'路线落在地平线以上，无法投影',plan_route_too_short:'计划路线过短',
+ low_plan_confidence:'计划置信度不足',plan_pose_unavailable:'缺少规划帧位姿',
+ pose_unavailable:'缺少里程计位姿',odometry_frame_changed:'里程计坐标系变化',
+ invalid_plan_clock:'计划时钟无效',plan_expired:'计划过期',plan_timeout:'规划超时',
+ invalid_vlx_path:'VLX 路径无效',plan_not_ready:'计划未就绪',no_feasible_candidate:'没有可行候选',
+ waiting_for_slow_plan:'等待 DeepSeek 规划',camera_frame_stale:'相机帧过期',prediction_stale:'VLX 预测过期',
+ source_not_running:'VLX 尚未就绪',fast_input_invalid:'快分支输入无效',hold:'保持停止',
+ plan_rejected:'计划被拒绝',finished:'实验已结束',observation_only:'观察测试，不发送运动',
+ waiting_plan:'等待本任务规划',running_motion:'执行中',task_completed:'任务已完成',blocked:'任务受阻'};
+const describe=x=>why[x]||x||'—';
+const fmt=(x,n=2)=>typeof x==='number'&&Number.isFinite(x)?x.toFixed(n):'—';
+const text=(id,v)=>{const e=$(id);if(e)e.textContent=v==null?'—':String(v)};
+const pill=(id,v,k)=>{const e=$(id);if(!e)return;e.textContent=v==null?'—':String(v);e.className='pill '+(k||'')};
+const validPoints=p=>Array.isArray(p)?p.filter(q=>Array.isArray(q)&&q.length>=2&&q.every(Number.isFinite)):[];
+function emptyCanvas(id,message){const canvas=$(id),c=canvas.getContext('2d');c.clearRect(0,0,canvas.width,canvas.height);c.fillStyle='#09101a';c.fillRect(0,0,canvas.width,canvas.height);c.fillStyle='#9badc2';c.font='18px sans-serif';c.textAlign='center';c.fillText(message,canvas.width/2,canvas.height/2);c.textAlign='left'}
+function plot(id,series,empty){const canvas=$(id),c=canvas.getContext('2d'),w=canvas.width,h=canvas.height;series=series.map(s=>({...s,points:validPoints(s.points)}));if(!series.some(s=>s.points.length)){emptyCanvas(id,empty||'暂无有效轨迹');return}c.clearRect(0,0,w,h);c.fillStyle='#09101a';c.fillRect(0,0,w,h);let xmax=.5,xmin=-.1,ymax=.25;for(const s of series)for(const p of s.points){xmax=Math.max(xmax,p[0]);xmin=Math.min(xmin,p[0]);ymax=Math.max(ymax,Math.abs(p[1]))}const scale=Math.min((h-90)/(xmax-xmin+Math.max(.1,xmax*.12)),(w-90)/(ymax*2.5)),ox=w/2,oy=h-45+xmin*scale;let step=Math.pow(10,Math.floor(Math.log10((xmax-xmin)/5)));if((xmax-xmin)/step>9)step*=2;if((xmax-xmin)/step>9)step*=2.5;c.font='12px sans-serif';c.lineWidth=1;c.strokeStyle='#22334a';c.fillStyle='#8396ae';for(let x=Math.ceil(xmin/step)*step;x<=xmax+step*.5;x+=step){const py=oy-x*scale;c.beginPath();c.moveTo(30,py);c.lineTo(w-20,py);c.stroke();c.fillText(fmt(x,step<.1?2:1)+' m',8,py-4)}for(let y=-Math.ceil(ymax/step)*step;y<=ymax;y+=step){const px=ox-y*scale;c.beginPath();c.moveTo(px,35);c.lineTo(px,h-25);c.stroke()}c.strokeStyle='#59708f';c.beginPath();c.moveTo(ox,30);c.lineTo(ox,h-25);c.stroke();c.fillStyle='#b9cadd';c.font='14px sans-serif';c.fillText('↑ 前方 x',ox+12,26);c.fillText('← 左侧 y',20,25);for(const s of series){if(!s.points.length)continue;c.globalAlpha=s.alpha??1;c.strokeStyle=s.color;c.fillStyle=s.color;c.lineWidth=s.width||3;c.setLineDash(s.dashed?[9,6]:[]);c.beginPath();s.points.forEach((p,i)=>{const px=ox-p[1]*scale,py=oy-p[0]*scale;i?c.lineTo(px,py):c.moveTo(px,py)});c.stroke();c.setLineDash([]);if(s.dots!==false)s.points.forEach(p=>{c.beginPath();c.arc(ox-p[1]*scale,oy-p[0]*scale,3,0,Math.PI*2);c.fill()})}c.globalAlpha=1;c.fillStyle='#fff';c.beginPath();c.moveTo(ox,oy-10);c.lineTo(ox-6,oy+6);c.lineTo(ox+6,oy+6);c.closePath();c.fill();c.fillText('机身原点',ox+12,oy+9)}
+function paintImage(id,key,b64,draw,missing){if(!b64){delete images[id];emptyCanvas(id,missing||'暂无匹配图像');return}let slot=images[id];if(slot&&slot.key===key){slot.draw=draw;if(slot.loaded)drawLoaded(id,slot);return}slot={key,draw,loaded:false};images[id]=slot;emptyCanvas(id,'正在读取图像…');const img=new Image();slot.image=img;img.onload=()=>{if(images[id]!==slot)return;slot.loaded=true;drawLoaded(id,slot)};img.onerror=()=>{if(images[id]===slot)emptyCanvas(id,'图像读取失败')};img.src='data:image/jpeg;base64,'+b64}
+function drawLoaded(id,slot){const canvas=$(id),c=canvas.getContext('2d');c.clearRect(0,0,canvas.width,canvas.height);c.drawImage(slot.image,0,0,canvas.width,canvas.height);slot.draw&&slot.draw(c,canvas.width,canvas.height)}
+function uvRoute(c,w,h,points){const pts=validPoints(points).filter(p=>p[0]>=0&&p[0]<=1&&p[1]>=0&&p[1]<=1);c.strokeStyle='#f2c777';c.fillStyle='#f2c777';c.lineWidth=3;c.beginPath();pts.forEach((p,i)=>i?c.lineTo(p[0]*w,p[1]*h):c.moveTo(p[0]*w,p[1]*h));c.stroke();pts.forEach((p,i)=>{c.beginPath();c.arc(p[0]*w,p[1]*h,4,0,Math.PI*2);c.fill();c.font='13px sans-serif';c.fillText(String(i+1),p[0]*w+8,p[1]*h-6)})}
+
+function renderTask(t){
+ const task=(t&&t.task)||{},phase=task.phase||t.plan_status||'idle';
+ const labels={idle:'等待任务',planning:'等待 DeepSeek 规划',ready:'计划就绪 · 待起步',executing:'执行中',completed:'任务已完成',blocked:'任务受阻'};
+ pill('taskPhase',labels[phase]||describe(phase),phase==='completed'?'good':phase==='blocked'?'bad':phase==='executing'||phase==='ready'?'good':'warn');
+ text('taskCalls','DeepSeek 调用 '+(task.plan_calls??0)+' / 1');
+ text('taskPlanId',task.plan_request_id?('计划 '+String(task.plan_request_id).slice(0,10)+'…'):'计划 —');
+ const remaining=task.remaining_route_m??t.remaining_route_m,total=task.total_route_m??t.total_route_m,fraction=task.progress_fraction??t.progress_fraction;
+ text('taskRemaining',remaining!=null?'剩余路线 '+fmt(remaining,2)+' m'+(total?' / '+fmt(total,2)+' m':''):'剩余路线 —');
+ $('taskBar').style.width=(fraction!=null?Math.max(0,Math.min(1,fraction))*100:0)+'%';
+ text('taskNote',t.plan_description?('计划：'+t.plan_description):describe(t.reason||phase));
+ const obs=t.measured_obstacles||[],src=t.obstacle_source||{};
+ text('taskObstacle',obs.length?('实测障碍 '+obs.length+' 个 · 最近 '+fmt(Math.min(...obs.map(o=>o.distance_m)),2)+' m'+(src.corridor_m!=null?' · 正前方 '+fmt(src.corridor_m,2)+' m':'')):(src.nearest_m!=null?'实测障碍 · 最近 '+fmt(src.nearest_m,2)+' m':'实测障碍 —'));
+}
+function renderFast(s){const f=s.fast||{},r=f.record||{},robot=s.robot||{},valid=connected&&f.valid;const elapsed=Math.max(0,(Date.now()-lastReceipt)/1000);text('instruction',f.instruction||'等待 VLX 任务');text('fastHz',fmt(r.recent_prediction_hz)+' Hz');text('cameraHz',fmt(f.camera&&f.camera.recent_receipt_hz,1)+' Hz');text('predictionAge',typeof f.prediction_age_s==='number'?fmt((f.prediction_age_s+elapsed)*1000,0)+' ms':'—');text('frameAge','图像年龄 '+(typeof f.camera_age_s==='number'?fmt((f.camera_age_s+elapsed)*1000,0)+' ms':'—'));const telemetry=typeof robot.telemetry_age_s==='number'?robot.telemetry_age_s+(robot.poll_age_s||0)+elapsed:null;text('telemetryAge',telemetry!=null?fmt(telemetry*1000,0)+' ms':'—');const robotOK=connected&&robot.connected&&telemetry!=null&&telemetry<1;pill('robotState',robotOK?'机器人已连接 · 模式 '+(robot.mode??'—'):'机器人遥测不可用',robotOK?'good':'warn');text('controlState',!robotOK?'控制状态未知':robot.enabled||robot.vlx_active?'原系统控制已启用':'原系统控制关闭');text('frameLabel','帧 '+(r.camera_frame_index??'—')+' · 预测 '+(r.prediction_index??'—'));text('cameraBadge',valid?'实时画面':'画面不可用于当前判断 · '+describe(f.reason||'连接中断'));$('cameraBadge').className='overlay '+(valid?'':'warn');paintImage('liveImage',[f.stream_id,r.camera_frame_index].join(':'),f.image_base64,null,'等待相机图像');plot('fastMap',valid?[{points:r.waypoints,color:colors.fast}]:[],'当前预测不可用：'+describe(f.reason||'连接中断'));const tbody=$('waypoints');tbody.replaceChildren();if(valid)validPoints(r.waypoints).forEach((p,i)=>{const row=document.createElement('tr');[i+1,...p.map(n=>fmt(n,4))].forEach(value=>{const cell=document.createElement('td');cell.textContent=value;row.appendChild(cell)});tbody.appendChild(row)})}
+function renderExperiment(){const history=view==='archive';const s=history?(current&&current.archive):current;const exp=s&&s.experiment,has=!!exp&&exp.view_mode!=='inactive';text('loopHz',has?fmt(exp.loop_hz,1)+' Hz':'—');text('loopNote',history?'历史实验频率':has?'每任务一次推理循环':'本页仅观察');text('slowLatency',has&&exp.plan_age_s!=null?fmt(exp.plan_age_s,2)+' s':'—');text('slowActivity',has?describe(exp.plan_status||exp.reason):'未启动实验');text('selectionLabel',has?(exp.selection||'—'):'—');text('decisionReason',has?describe(exp.reason):'等待当前实验。');text('targetDescription',has&&exp.plan_description?exp.plan_description:'');text('requestLabel',has&&exp.plan_request_id?String(exp.plan_request_id).slice(0,10)+'…':'无计划');const imageOK=has&&exp.plan_request_id&&exp.image_request_id===exp.plan_request_id;paintImage('requestImage',exp&&exp.image_request_id,imageOK?exp.image_base64:null,(c,w,h)=>uvRoute(c,w,h,exp.request_waypoints_uv||exp.slow_raw),'等待计划帧');text('requestNote',has?'计划帧的像素路线；米制投影见右侧':'等待 DeepSeek 第一次（也是本任务唯一一次）规划。');plot('compareMap',has?[{points:exp.fast,color:colors.fast,alpha:.7},{points:exp.plan_aligned,color:colors.plan_aligned,dashed:true,labels:true},{points:exp.recommended,color:colors.recommended}].filter(x=>layers.has(x.color===colors.fast?'fast':x.color===colors.plan_aligned?'plan_aligned':'recommended')):[],'没有可显示的任务路线');const task=(s&&s.experiment&&s.experiment.task)||{};text('targetState',has?(exp.instruction||'—'):'等待指令');text('routeState',has?describe(exp.plan_status||exp.reason):'等待计划');text('trackState',has?(exp.task_execution_ready?'跟随计划路线':describe(exp.reason)):'未开始');text('fusionState',has?(task.completed?'任务完成':describe(exp.reason)):'未完成');if(has)$('diagnostics').textContent=JSON.stringify({phase:task.phase,reason:exp.reason,selection:exp.selection,plan_status:exp.plan_status,remaining_route_m:exp.remaining_route_m,total_route_m:exp.total_route_m,cross_track_m:exp.cross_track_m,progress_fraction:exp.progress_fraction,chosen_angle_rad:exp.chosen_angle_rad,last_rejection:exp.last_rejection,plan_calls:task.plan_calls,api_latency_s:exp.latency_s},null,2)}
+function render(s){document.dispatchEvent(new CustomEvent('observation-state',{detail:s}));current=s;renderFast(s);renderTask(s.experiment||{});renderExperiment();text('updated','最近更新：'+(s.server_time||'—'))}
+function connectionLost(){document.dispatchEvent(new Event('observation-disconnected'));connected=false;pill('connection','观察服务中断','bad')}
+async function getJSON(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),2000);try{const response=await fetch(url,{cache:'no-store',signal:controller.signal});if(!response.ok)throw Error('HTTP '+response.status);return await response.json()}finally{clearTimeout(timer)}}
+async function poll(){try{const s=await getJSON('/observe.json');connected=true;lastReceipt=Date.now();pill('connection','观察服务在线','good');render(s)}catch(e){connectionLost()}setTimeout(poll,200)}
+async function loadArchives(){const select=$('archiveSelect');try{const rows=await getJSON('/archives.json');select.replaceChildren();if(!rows.length){const option=document.createElement('option');option.value='';option.textContent='没有保存的真实 API 实验';select.appendChild(option);return}for(const row of rows){const option=document.createElement('option');option.value=row.run;option.textContent=(row.started_at||row.run)+' · '+row.model+(row.has_response?'':' · 响应未完成');select.appendChild(option)}}catch(e){text('modeBanner','历史记录读取失败；实时观察不受影响。')}}
+async function loadSelectedArchive(){const run=$('archiveSelect').value;if(!run)return;try{current={...(current||{}),archive:await getJSON('/archive.json?run='+encodeURIComponent(run))};renderExperiment()}catch(e){text('modeBanner','历史记录读取失败。')}}
+function setView(next){view=next;$('liveButton').className=next==='live'?'active':'';$('archiveButton').className=next==='archive'?'active':'';$('archiveControls').className=next==='archive'?'shown':'';if(next==='live')renderExperiment();else loadSelectedArchive()}
+$('liveButton').onclick=()=>setView('live');$('archiveButton').onclick=()=>setView('archive');$('archiveSelect').onchange=loadSelectedArchive;$('reloadArchives').onclick=loadArchives;
+document.querySelectorAll('[data-layer]').forEach(e=>e.onchange=()=>{e.checked?layers.add(e.dataset.layer):layers.delete(e.dataset.layer);renderExperiment()});
+
+window.observationDebug={render,setView,connectionLost};
+poll();loadArchives();
+</script><script src="/trial_controls.js"></script></body></html>

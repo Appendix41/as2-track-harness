@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local run artifacts (created lazily by scripts/)
+runs/
+cache/
+manifests/
+*.log
+
+# Local credentials and machine-specific configuration
+.env
+.env.*
+*.key
+config/*.local.json
+config/*.secret.json

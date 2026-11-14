@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "as2-track-harness"
+version = "0.1.0"
+description = "Asynchronous VLX-Go waypoint navigation fused with a one-plan-per-task DeepSeek planner"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.11"
+authors = [{ name = "AS2 Track Harness contributors" }]
+keywords = ["robotics", "navigation", "vla", "vlm", "quadruped", "unitree"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = ["numpy>=1.26,<3"]
+
+[project.optional-dependencies]
+# Dashboard image rendering and the optional depth preview.
+vision = ["opencv-python-headless>=4.8", "pillow>=10"]
+# Read-only DDS telemetry and real-robot command delivery (Linux only).
+hardware = ["cyclonedds>=0.10", "unitree_sdk2py>=1.0"]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+vlx_async = ["*.html", "*.js"]

@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software in academic work, please cite it as below."
+title: "AS2 Track Harness (DeepSeek × VLX): asynchronous VLA waypoints fused with a one-plan-per-task VLM planner"
+abstract: >-
+  An asynchronous navigation harness for a Unitree AS2 quadruped. A fast
+  VLX-Go policy supplies 8x3 body-frame waypoints at camera rate; a slow DeepSeek
+  planner is asked exactly once per task, before departure, for a ground route
+  in the image. The harness fuses the frozen plan with the current VLX path,
+  enforces bounded command, telemetry, watchdog and control-lease gates, and
+  publishes a read-only observation dashboard. Execution is disabled by default.
+type: software
+authors:
+  - name: "AS2 Track Harness contributors"
+version: 0.1.0
+date-released: 2026-11-13
+license: Apache-2.0
+keywords:
+  - robotics
+  - navigation
+  - vision-language-action
+  - vision-language-model
+  - quadruped
