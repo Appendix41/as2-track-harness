@@ -13,7 +13,7 @@
 | `demo.mp4` | 1280 × 720, 10 s, 2.0 MB | Results: demo clip, H.264/AAC (the click target) |
 | `demo.gif` | 480 × 270, 10 s, 3.2 MB | Results: inline looping preview, links to `demo.mp4` |
 | `demo-poster.jpg` | 1280 × 720 | Poster frame, not referenced at the moment |
-| `demo-vlx-vs-plan.png` | 1240 × 1020 | Results: one step of the demo, VLX vs the DeepSeek plan |
+| `demo-vlx-vs-plan.png` | 1229 × 892 | Results: one step of the demo, VLX vs the DeepSeek plan |
 | `observation-dashboard.png` | 1440 × 1200 | Kept for a future screenshot section |
 | `dashboard-live.jpg` | 1000 × 2330 | Kept for a future screenshot section |
 | `dashboard-history.jpg` | 1000 × 2337 | Kept for a future screenshot section |
