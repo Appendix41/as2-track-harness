@@ -196,6 +196,12 @@ Orin at about 8 Hz; DeepSeek is called once per task.
 
 <p align="center"><em>Demo clip (10 s, looping). Click to open the MP4.</em></p>
 
+<p align="center">
+  <img src="assets/demo-vlx-vs-plan.png" alt="One step of the demo: VLX heading +0.0°, DeepSeek plan 3.32 m at +25.0°" width="82%">
+</p>
+
+<p align="center"><em>One step from the same run. VLX gives no usable direction here (heading +0.0°, its points stay near the origin); DeepSeek plans a 3.32 m route at +25.0°. The harness blends 80% of that heading into the VLX path, which is what turns the robot toward the far chair. This is the reason for the slow planner.</em></p>
+
 | What | Result | N |
 | --- | --- | --- |
 | Unit tests | 170 passing, CPU only | 170 |

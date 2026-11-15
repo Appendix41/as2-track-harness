@@ -180,6 +180,12 @@ obstacles`。VLX-Go 在机载 Orin 上约 8 Hz，DeepSeek 每个任务只调一�
 
 <p align="center"><em>演示片段（10 s，循环播放），点击打开 MP4。</em></p>
 
+<p align="center">
+  <img src="assets/demo-vlx-vs-plan.png" alt="同一段运行中的一步：VLX 航向 +0.0°，DeepSeek 规划出 3.32 m、+25.0° 的路线" width="82%">
+</p>
+
+<p align="center"><em>同一段运行中的一步。VLX 自己没给出有效方向（航向 +0.0°，预测点挤在原点附近）；DeepSeek 规划出一条 3.32 m、+25.0° 的路线。harness 按 80% 权重把这个航向混进 VLX 路径，才把机器人往远处的椅子方向拉。这就是引入慢规划器的原因。</em></p>
+
 | 项目 | 结果 | 样本 |
 | --- | --- | --- |
 | 单元测试 | 170 项通过，纯 CPU | 170 |
